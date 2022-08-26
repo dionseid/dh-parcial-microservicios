@@ -10,3 +10,8 @@ spring:
 #  Prefiero la configuración que se abstrae de la dirección del servidor de configuración
   profiles:
     active: dev
+
+#management:
+#  info:
+#    env:
+#    enabled: true

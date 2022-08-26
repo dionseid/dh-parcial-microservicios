@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: catalog-service
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-service
+  #  import: configserver:http://localhost:8888 # con application.yml como nombre de este archivo
+  #  Prefiero la configuración que se abstrae de la dirección del servidor de configuración
+  profiles:
+    active: dev
