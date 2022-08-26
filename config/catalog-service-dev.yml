@@ -1,2 +1,8 @@
+info:
+  app:
+    description: Catalog Service for Movies Application
+    name: catalog-service
+    version: 1.0.0
+
 server:
   port: 8091
