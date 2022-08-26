@@ -10,14 +10,3 @@ spring:
 #  Prefiero la configuración que se abstrae de la dirección del servidor de configuración
   profiles:
     active: dev
-
-#management:
-#  info:
-#    env:
-#    enabled: true
-#
-#info:
-#  app:
-#    description: Movie Service for Movies Application
-#    name: movie-service
-#    version: 1.0.0
