@@ -1,11 +1,5 @@
-info:
-  app:
-    description: Edge Server for microservices landscape
-    name: gateway-service
-    version: 1.0.0
-
 server:
-  port: 8080
+  port: 8090
 
 spring:
   cloud:
@@ -22,4 +16,3 @@ spring:
           predicates:
             - Path=/movies/**
           uri: lb://movie-service
-
