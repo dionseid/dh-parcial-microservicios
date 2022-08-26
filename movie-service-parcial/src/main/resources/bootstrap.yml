@@ -15,3 +15,9 @@ spring:
 #  info:
 #    env:
 #    enabled: true
+#
+#info:
+#  app:
+#    description: Movie Service for Movies Application
+#    name: movie-service
+#    version: 1.0.0
