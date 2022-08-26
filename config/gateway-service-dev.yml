@@ -1,3 +1,9 @@
+info:
+  app:
+    description: Edge Server for microservices landscape
+    name: gateway-service
+    version: 1.0.0
+
 server:
   port: 8080
 
@@ -7,7 +13,13 @@ spring:
       default-filters:
         - name: LogFilter
         - name: CountFilter
-  eureka:
-    client:
-      service-url:
-        defaultZone: http://localhost:8761/eureka
+      routes:
+        - id: catalogRoute
+          predicates:
+            - Path=/catalog/**
+          uri: lb://catalog-service
+        - id: musicRoute
+          predicates:
+            - Path=/movies/**
+          uri: lb://movie-service
+
