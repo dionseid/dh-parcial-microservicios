@@ -5,8 +5,10 @@ import lombok.Data;
 
 import java.util.List;
 
-@Data @Builder
+@Builder @Data
 public class CatalogWS {
+
 	private String genre;
 	private List<MovieWS> movies;
+
 }

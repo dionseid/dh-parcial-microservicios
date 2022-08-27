@@ -4,11 +4,13 @@ import com.dh.movieservice.api.service.MovieService;
 import com.dh.movieservice.domain.model.Movie;
 import com.dh.movieservice.domain.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Qualifier("movieService")
 public class MovieServiceImpl implements MovieService {
 	private MovieRepository movieRepository;
 

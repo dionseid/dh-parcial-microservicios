@@ -9,4 +9,4 @@ spring:
 #  import: configserver:http://localhost:8888 # con application.yml como nombre de este archivo
 #  Prefiero la configuración que se abstrae de la dirección del servidor de configuración
   profiles:
-    active: dev
+    active: dev # The other profile for load balancing testing is dev2

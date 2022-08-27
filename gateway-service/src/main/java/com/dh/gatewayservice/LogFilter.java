@@ -30,7 +30,8 @@ public class LogFilter extends AbstractGatewayFilterFactory<LogFilter.Config> {
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
 
                 // filtro posterior a la invocación del servicio real asociado al gateway
-                log.info("time response:" + Calendar.getInstance().getTime());
+                log.info("time response: " + Calendar.getInstance().getTime());
+                log.info("port used: " + exchange.getResponse().getHeaders().get("port"));
 
             }));
 
