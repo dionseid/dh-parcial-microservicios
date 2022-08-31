@@ -15,4 +15,4 @@ spring:
       server:
         git:
           searchPaths: config
-          uri: https://github.com/dionseid/dh-parcial-microservicios
+          uri: https://github.com/dionseid/movies-and-series-catalog-msa

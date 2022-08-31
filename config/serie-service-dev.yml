@@ -1,0 +1,8 @@
+info:
+  app:
+    description: Manage series with their seasons and chapters
+    name: ${spring.application.name}
+    version: 1.0.0
+
+server:
+  port: 8095

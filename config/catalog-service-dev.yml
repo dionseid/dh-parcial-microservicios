@@ -1,8 +1,70 @@
 info:
   app:
     description: Catalog Service for Movies Application
-    name: catalog-service
-    version: 1.0.0
+    name: ${spring.application.name}
+    version: 1.2.0
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true # Permitimos a Circuit Breaker que pueda modificar endpoint
+      # para agregar información acerca de su estado y eventos que va emitiendo
+  endpoints:
+    web:
+      exposure:
+        include: circuitbreakers,circuitbreakerevents,health,info,metrics,ratelimiters
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      moviesByGenre:
+        allowHealthIndicatorToFail: false # Permite cambiar de estado UP a DOWN,
+        # si se encuentra en estado abierto o medio abierto; este se puede visualizar en dashboard de Eureka
+        # Le ponemos en false porque hay un método que está fallando, no se trata de que la instancia esté caída
+        # Si tuviésemos un método más crítico podríamos poner en true
+        automaticTransitionFromOpenToHalfOpenEnabled: true # luego de waitDurationInOpenState
+        # Que pase al estado medio abierto luego de determinado tiempo de espera
+        failureRateThreshold: 50 # Base sobre la que se analiza slidingWindowSize de tipo slidingWindowType
+        # Si fallan 3 peticiones de las 5 que tenemos en slidingWindowSize, pasamos a estado abierto
+        # Es el porcentaje de llamadas que tienen que fallar para pasar de estado medio abierto a abierto
+        permittedNumberOfCallsInHalfOpenState: 3 # Cuando estamos en estado semiabierto volvemos a realizar un análisis
+        # para luego decidir con qué estado continuar
+        registerHealthIndicator: true # Resilience4j agregará inf del Circuit Breaker en endpoint /health de Actuator
+        slidingWindowSize: 5 # Número de llamadas o cantidad de tiempo antes de analizar si pasar a otro estado
+        slidingWindowType: COUNT_BASED # Tipo de análisis de eventos para seguir en estado cerrado o pasar a abierto
+        # Si queremos que se active mediante contador de eventos o de tiempo
+        # COUNT_BASED para que cuente la cantidad de veces que falla
+        waitDurationInOpenState: 15000 # Tiempo en milisegundos (15 segundos) que la ventana va a estar abierta,
+        # antes de pasar a estado semiabierto. transición automática. En estado semiabierto no hay un período de tiempo,
+        # pero sí un cantidad de eventos
+      seriesByGenre:
+        allowHealthIndicatorToFail: false
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        failureRateThreshold: 50
+        permittedNumberOfCallsInHalfOpenState: 3
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        slidingWindowType: COUNT_BASED
+        waitDurationInOpenState: 15000
+  retry:
+    instances:
+      moviesByGenre:
+        maxAttempts: 3 # Cantidad de reintentos que se van a ejecutar hasta que se determine un error
+        # Menor o igual que el valor de slidingWindowSize para pasar al estado abierto
+        retryExceptions: # Excepciones que va a reconocer y va a reintentar
+          - feign.FeignException$InternalServerError
+          - feign.FeignException$ServiceUnavailable
+        # Nos interesan las excepciones que nos pueda arrojar la red
+        waitDuration: 1000 # Cantidad de tiempo (1 segundo) que espera antes de hacer un reintento
+      seriesByGenre:
+        maxAttempts: 3
+        retryExceptions:
+          - feign.FeignException$InternalServerError
+          - feign.FeignException$ServiceUnavailable
+        waitDuration: 1000
 
 server:
   port: 8091

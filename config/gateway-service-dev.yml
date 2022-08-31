@@ -1,3 +1,9 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+
 spring:
   cloud:
     gateway:
@@ -9,7 +15,11 @@ spring:
           predicates:
             - Path=/catalog/**
           uri: lb://catalog-service
-        - id: musicRoute
+        - id: movieRoute
           predicates:
             - Path=/movies/**
           uri: lb://movie-service
+        - id: serieRoute
+          predicates:
+            - Path=/series/**
+          uri: lb://serie-service
