@@ -3,10 +3,12 @@ package com.dh.catalogservice.domain.model.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Builder @Data
-public class MovieWS {
+public class SerieWS {
     private Integer id;
     private String name;
     private String genre;
-    private String urlStream;
+    private List<SeasonWS> seasons;
 }

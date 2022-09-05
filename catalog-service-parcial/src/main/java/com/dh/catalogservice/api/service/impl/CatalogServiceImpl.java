@@ -3,41 +3,72 @@ package com.dh.catalogservice.api.service.impl;
 import com.dh.catalogservice.api.service.CatalogService;
 import com.dh.catalogservice.domain.model.dto.CatalogWS;
 import com.dh.catalogservice.domain.model.dto.MovieWS;
-import com.dh.catalogservice.domain.repository.MovieRepository;
+import com.dh.catalogservice.domain.model.dto.SerieWS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 @Service
 @Qualifier("catalogService")
 public class CatalogServiceImpl implements CatalogService {
 
-	private final MovieRepository movieRepository;
-	private static Logger log = Logger.getLogger(CatalogServiceImpl.class.getName());
+	private static final Logger log = Logger.getLogger(CatalogServiceImpl.class.getName());
+	private final MovieService movieService;
+	private final SerieService serieService;
 
 	@Autowired
-	public CatalogServiceImpl(MovieRepository movieRepository) {
-		this.movieRepository = movieRepository;
+	public CatalogServiceImpl(MovieService movieService, SerieService serieService) {
+		this.movieService = movieService;
+		this.serieService = serieService;
 	}
 
 	@Override
-	public CatalogWS getCatalogByGenre(String genreName) {
+	public CatalogWS getByGenre(String genreName) throws Exception {
 
-		ResponseEntity<List<MovieWS>> movieResponse = movieRepository.getMovieByGenre(genreName);
+		/* Estoy notando que tengo dos APIs a configurar con Circuit Breaker
+		El problema está en que las configuraciones del Circuit Breaker no son exactas,
+		porque las llamadas no son simultáneas, sino una después de la otra
+		Cuando a mí me gustaría que el cliente final reintentase 1 sola vez,
+		con las dos APIs caídas tiene que volver a llamar 2 veces más. No es el comportamiento configurado
+		Para solventar este problema por sincronicidad he implementado el siguiente bloque try/catch */
+		List<MovieWS> movies = null;
+		List<SerieWS> series = null;
 
-		log.info("El puerto de movie-service es: " + movieResponse.getHeaders().get("port"));
+		try {
+			movies = movieService.findByGenre(genreName, false/*Boolean.TRUE*/).getBody();
+			series = serieService.findByGenre(genreName).getBody();
+		} catch (Exception e) {
+			if (e.getMessage().contains("MovieClient")) {
+				try {
 
-		if (movieResponse.getStatusCode().is2xxSuccessful() && !movieResponse.getBody().isEmpty())
-			return CatalogWS.builder()
-					.genre(genreName)
-					.movies(movieResponse.getBody())
-					.build();
+					series = serieService.findByGenre(genreName).getBody();
 
-		return null;
+					throw e;
+
+				} catch (Exception nestedException) {
+					if (nestedException.getMessage().contains("SerieClient")) log.warning("No API is working");
+				}
+			} else if (e.getMessage().contains("SerieClient")) {
+				try {
+
+					movies = movieService.findByGenre(genreName, false).getBody();
+
+					throw e;
+
+				} catch (Exception nestedException) {
+					if (nestedException.getMessage().contains("MovieClient")) log.warning("No API is working");
+				}
+			}
+		}
+
+		return CatalogWS.builder()
+				.genre(genreName)
+				.movies(movies)
+				.series(series)
+				.build();
 
 	}
 

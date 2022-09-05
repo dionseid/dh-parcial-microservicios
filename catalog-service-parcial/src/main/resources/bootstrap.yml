@@ -10,21 +10,3 @@ spring:
   #  Prefiero la configuración que se abstrae de la dirección del servidor de configuración
   profiles:
     active: dev
-
-resilience4j:
-  circuitbreaker:
-    instances:
-      moviesByGenre:
-        allowHealthIndicatorToFail: false # Permite cambiar de estado UP a DOWN,
-        # si se encuentra en estado abierto o medio abierto
-        automaticTransitionFromOpenToHalfOpenEnabled: true
-        # Que pase al estado medio abierto luego de determinado tiempo de espera
-        failureRateThreshold: 50
-        # Porcentaje de llamadas que tienen que fallar para pasar a de estado medio abierto a abierto
-        permittedNumberOfCallsInHalfOpenState: 3 # Para luego decidir a qué estado pasar
-        registerHealthIndicator: true # Resilience4j agregará inf del Circuit Breaker en endpoint /health de Actuator
-        slidingWindowSize: 5 # número de llamadas o cantidad de tiempo antes de activación del Circuit Breaker
-        slidingWindowType: COUNT_BASED
-        # Si queremos que se active mediante contador de eventos o de tiempo
-        # COUNT_BASED para que cuente la cantidad de veces que falla
-        waitDurationInOpenState: 15000 # en milisegundos (15 segundos)

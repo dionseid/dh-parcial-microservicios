@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/catalog")
+@RequestMapping("/catalogs")
 public class CatalogController {
 
 	@Qualifier("catalogService")
@@ -30,15 +30,16 @@ public class CatalogController {
 	}
 
 	@GetMapping("/{genre}")
-	ResponseEntity<CatalogWS> getCatalogByGenre(@PathVariable String genre, HttpServletResponse response) {
+	ResponseEntity<CatalogWS> getByGenre(@PathVariable String genre, HttpServletResponse response) throws Exception {
 
 		response.addHeader("port", serverPort);
 
-		CatalogWS catalogDto = catalogService.getCatalogByGenre(genre);
+		CatalogWS catalogDto = catalogService.getByGenre(genre);
 
-		return Objects.isNull(catalogDto)
-				? new ResponseEntity<>(HttpStatus.NOT_FOUND)
-				: new ResponseEntity<>(catalogDto, HttpStatus.OK);
+		if (Objects.isNull(catalogDto) ||
+				(Objects.isNull(catalogDto.getMovies()) || Objects.isNull(catalogDto.getSeries())))
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		else return new ResponseEntity<>(catalogDto, HttpStatus.OK);
 
 	}
 
