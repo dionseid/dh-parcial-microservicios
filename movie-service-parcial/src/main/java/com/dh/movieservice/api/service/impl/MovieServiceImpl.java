@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 @Qualifier("movieService")
 public class MovieServiceImpl implements MovieService {
-	private MovieRepository movieRepository;
+	private final MovieRepository movieRepository;
 
 	@Autowired
 	public MovieServiceImpl(MovieRepository movieRepository) {
@@ -20,8 +20,12 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public List<Movie> getListByGenre(String genre) {
+	public List<Movie> findByGenre(String genre, Boolean throwError) {
+
+		if (throwError) throw new RuntimeException();
+
 		return movieRepository.findAllByGenre(genre);
+
 	}
 
 	@Override

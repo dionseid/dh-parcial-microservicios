@@ -1,13 +1,10 @@
 package com.dh.movieservice.api.controller;
 
 import com.dh.movieservice.api.service.MovieService;
-import com.dh.movieservice.api.service.impl.MovieServiceImpl;
 import com.dh.movieservice.domain.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,9 +27,11 @@ public class MovieController {
 	}
 
 	@GetMapping("/{genre}")
-	public ResponseEntity<List<Movie>> getMovieByGenre(@PathVariable String genre, HttpServletResponse response) {
+	public ResponseEntity<List<Movie>> findByGenre(@PathVariable String genre,
+												   HttpServletResponse response,
+												   @RequestParam(defaultValue = "false") Boolean throwError) {
 
-		List<Movie> movies = movieService.getListByGenre(genre);
+		List<Movie> movies = movieService.findByGenre(genre, throwError);
 
 		response.addHeader("port", serverPort);
 		System.out.println("The server port is: " + serverPort);
