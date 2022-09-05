@@ -38,3 +38,12 @@ spring:
           predicates:
             - Path=/series/**
           uri: lb://serie-service
+  main:
+    web-application-type: reactive
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: 5da4fa8099e9b6f40249 #39188f1dc87c85786556
+            client-secret: 58a723f99a2211e3014299537221d1e518275a12 #74b7a48e0313659a862db32a17aa26a05a9b27b1
