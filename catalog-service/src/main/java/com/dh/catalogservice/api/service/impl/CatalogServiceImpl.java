@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 @Qualifier("catalogService")
 public class CatalogServiceImpl implements CatalogService {
 
-	private static final Logger log = Logger.getLogger(CatalogServiceImpl.class.getName());
+	private static final Logger LOG = Logger.getLogger(CatalogServiceImpl.class.getName());
 	private final MovieService movieService;
 	private final SerieService serieService;
 
@@ -49,7 +49,7 @@ public class CatalogServiceImpl implements CatalogService {
 					throw e;
 
 				} catch (Exception nestedException) {
-					if (nestedException.getMessage().contains("SerieClient")) log.warning("No API is working");
+					if (nestedException.getMessage().contains("SerieClient")) LOG.warning("No API is working");
 				}
 			} else if (e.getMessage().contains("SerieClient")) {
 				try {
@@ -59,7 +59,7 @@ public class CatalogServiceImpl implements CatalogService {
 					throw e;
 
 				} catch (Exception nestedException) {
-					if (nestedException.getMessage().contains("MovieClient")) log.warning("No API is working");
+					if (nestedException.getMessage().contains("MovieClient")) LOG.warning("No API is working");
 				}
 			}
 		}

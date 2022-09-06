@@ -1,4 +1,4 @@
-package com.dh.gatewayservice;
+package com.dh.gatewayservice.config;
 
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -11,12 +11,10 @@ import java.util.logging.Logger;
 @Component
 public class LogFilter extends AbstractGatewayFilterFactory<LogFilter.Config> {
 
-    private static Logger log = Logger.getLogger(LogFilter.class.getName());
+    private static final Logger LOG = Logger.getLogger(LogFilter.class.getName());
 
     public LogFilter() {
-
-        super(Config.class);
-
+        super(Config.class); // sobrecarga del constructor, llamado a la clase padre
     }
 
     @Override
@@ -25,14 +23,14 @@ public class LogFilter extends AbstractGatewayFilterFactory<LogFilter.Config> {
         return (exchange, chain) -> {
 
             // filtro previo a la invocación del servicio real asociado al gateway
-            log.info("path requested: " + exchange.getRequest().getPath());
+            LOG.info("path requested: " + exchange.getRequest().getPath());
 
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
-
                 // filtro posterior a la invocación del servicio real asociado al gateway
-                log.info("time response: " + Calendar.getInstance().getTime());
-                log.info("port used: " + exchange.getResponse().getHeaders().get("port"));
-
+                // En este punto se pierde el rastro, o el ID de traceo es diferente
+                LOG.info("Request processing is complete");
+                LOG.info("time response: " + Calendar.getInstance().getTime());
+                LOG.info("port used: " + exchange.getResponse().getHeaders().get("port"));
             }));
 
         };
@@ -40,7 +38,7 @@ public class LogFilter extends AbstractGatewayFilterFactory<LogFilter.Config> {
     }
 
     public static class Config {
-        // Put the configuration properties
+        // Put the configuration properties, variables, or personalized messages
     }
 
 }

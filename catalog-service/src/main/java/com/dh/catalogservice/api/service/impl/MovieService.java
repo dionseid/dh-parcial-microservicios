@@ -20,7 +20,7 @@ import java.util.Objects;
 public class MovieService {
     // Acá manejaremos la lógica del Circuit Breaker y de los reintentos que podamos tener
 
-    private final Logger log = LoggerFactory.getLogger(MovieService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MovieService.class);
     private final MovieClient movieClient;
 
     @Autowired
@@ -32,11 +32,11 @@ public class MovieService {
     @Retry(name = "moviesByGenre")
     public ResponseEntity<List<MovieWS>> findByGenre(String genre, boolean throwError) {
 
-        log.info("We're about to get the movies...");
+        LOG.info("We're about to get the movies...");
 
         ResponseEntity<List<MovieWS>> movieResponse = movieClient.findByGenre(genre, throwError);
 
-        log.info("The port for movie-service is: " + movieResponse.getHeaders().get("port"));
+        LOG.info("The port for movie-service is: " + movieResponse.getHeaders().get("port"));
 
         if (movieResponse.getStatusCode().is2xxSuccessful()
                 && !Objects.requireNonNull(movieResponse.getBody()).isEmpty()) return movieResponse;
@@ -48,7 +48,7 @@ public class MovieService {
         // Pasarle como parámetro la excepción que el método padre cuando Circuit Breaker está en estado abierto
         // Devolver películas por defecto || loguear información
 
-        log.info("Circuit Breaker for moviesByGenre was activated");
+        LOG.info("Circuit Breaker for moviesByGenre was activated");
 
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
 

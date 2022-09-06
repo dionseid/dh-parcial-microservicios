@@ -1,4 +1,4 @@
-package com.dh.gatewayservice;
+package com.dh.gatewayservice.config;
 
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 @Component
 public class CountFilter extends AbstractGatewayFilterFactory<CountFilter.Config> {
 
-    public static Logger log = Logger.getLogger(CountFilter.class.getName());
+    public static final Logger LOG = Logger.getLogger(CountFilter.class.getName());
     private static AtomicInteger count = new AtomicInteger();
 
     public CountFilter() {
@@ -23,7 +23,7 @@ public class CountFilter extends AbstractGatewayFilterFactory<CountFilter.Config
 
         return (exchange, chain) -> {
 
-            log.info("la cantidad de peticiones al gateway es: " + count.incrementAndGet());
+            LOG.info("The number of requests to the gateway is: " + count.incrementAndGet());
 
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {}));
 

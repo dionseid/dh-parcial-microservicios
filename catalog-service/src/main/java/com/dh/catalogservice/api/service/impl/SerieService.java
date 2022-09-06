@@ -20,7 +20,7 @@ import java.util.Objects;
 public class SerieService {
     // Acá manejaremos la lógica del Circuit Breaker y de los reintentos que podamos tener
 
-    private static final Logger log = LoggerFactory.getLogger(SerieService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SerieService.class);
     private final SerieClient serieClient;
 
     @Autowired
@@ -32,7 +32,7 @@ public class SerieService {
     @Retry(name = "seriesByGenre")
     public ResponseEntity<List<SerieWS>> findByGenre(String genre) {
 
-        log.info("We're about to get the series...");
+        LOG.info("We're about to get the series...");
 
         ResponseEntity<List<SerieWS>> serieResponse = serieClient.findByGenre(genre);
 
@@ -46,7 +46,7 @@ public class SerieService {
         // Pasarle como parámetro la excepción que el método padre cuando Circuit Breaker está en estado abierto
         // Devolver series por defecto || loguear información
 
-        log.info("Circuit Breaker for seriesByGenre was activated");
+        LOG.info("Circuit Breaker for seriesByGenre was activated");
 
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
 
