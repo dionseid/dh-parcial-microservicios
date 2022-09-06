@@ -12,14 +12,29 @@ spring:
         - name: CountFilter
       routes:
         - id: catalogRoute
+          filters:
+            - name: CircuitBreaker
+              args:
+                fallbackUri: forward:/fallback/catalogs
+                name: catalogService
           predicates:
             - Path=/catalog/**
           uri: lb://catalog-service
         - id: movieRoute
+          filters:
+            - name: CircuitBreaker
+              args:
+                fallbackUri: forward:/fallback/movies
+                name: movieService
           predicates:
             - Path=/movies/**
           uri: lb://movie-service
         - id: serieRoute
+          filters:
+            - name: CircuitBreaker
+              args:
+                fallbackUri: forward:/fallback/series
+                name: serieService
           predicates:
             - Path=/series/**
           uri: lb://serie-service
