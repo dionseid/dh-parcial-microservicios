@@ -1,0 +1,39 @@
+version: "3.9" # optional since v1.27.0
+services:
+  # Dentro de cada servicio podemos tener volúmenes donde ir creando subcarpetas
+  zipkin:
+    image: openzipkin/zipkin # Usamos image en vez de build, pues ya la tenemos preconfigurada desde Docker Hub
+    ports:
+      - "9411:9411"
+  eureka-service:
+    image: eureka-service
+    ports:
+      - "8761:8761"
+    restart: always
+  config-service:
+    image: config-service
+    ports:
+      - "8888:8888"
+    restart: always
+  gateway-service:
+    image: gateway-service
+    ports:
+      - "8080:8080"
+    restart: always
+  catalog-service:
+    image: catalog-service
+    ports:
+      - "8091:8091"
+    restart: always
+  movie-service:
+    image: movie-service
+    ports:
+      - "8092:8092"
+    restart: always
+  serie-service:
+    image: serie-service
+    ports:
+      - "8095:8095"
+    restart: always
+# Podemos agregar particiones dentro de volúmenes
+# También podemos crear networks
