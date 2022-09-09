@@ -5,8 +5,10 @@ import com.dh.movieservice.domain.model.Movie;
 import com.dh.movieservice.domain.repository.MovieRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,7 +43,9 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
+	@RabbitListener(queues = "${queue.movie.name}")
 	public Movie save(Movie movie) {
+		LOG.info("A movie was received via Rabbit " + movie.toString());
 		return movieRepository.save(movie);
 	}
 

@@ -61,7 +61,8 @@ public class MovieService {
     }
 
     public void save(MovieWS movieDto) {
-        rabbitTemplate.convertAndSend(movieQueue, movieDto); // Pasar el nombre de cola o routing key
+        rabbitTemplate.convertAndSend(movieQueue, movieDto); /* Pasar el nombre de cola o routing key
+        Acá estamos usando RabbitTemplate que hemos definide como Bean */
     }
 
 
