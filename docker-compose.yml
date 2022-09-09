@@ -5,6 +5,11 @@ services:
     image: openzipkin/zipkin # Usamos image en vez de build, pues ya la tenemos preconfigurada desde Docker Hub
     ports:
       - "9411:9411"
+  rabbitmq:
+    image: rabbitmq:3.7.2-management
+    ports:
+      - "5672:5672"
+      - "15672:15672" # Donde está la interfaz para monitorear
   eureka-service:
     image: eureka-service
     ports:
