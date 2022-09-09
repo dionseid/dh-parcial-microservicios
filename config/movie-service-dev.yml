@@ -1,8 +1,34 @@
+exchange:
+  direct: direct-exchange
+  fanout: fanout-exchange
+  topic: topic-exchange
+
 info:
   app:
     description: Manage operations upon movies
     name: ${spring.application.name}
     version: 1.2.0
+
+queue: # Definir el nombre de la cola a través de la cual nos estamos conectando
+# Se configura al momento de setear las colas (formato de mensaje y demás)
+  B: queue-B
+  C: queue-C
+  D: queue-D
+  E: queue-E
+  F: queue-F
+  movie: # Estas configuraciones nos van a servir después si quisiéramos agregar más colas
+  # Por ejemplo, una de topic que también use el nombre de movie
+    name: Movie
+
+routing:
+  direct:
+    1: direct1
+    2: direct2
+  topic:
+    rabbitmq:
+      "#": "rabbitmq.#"
+      spring:
+        "#": "rabbitmq.spring.#"
 
 server:
   port: 8092
@@ -17,6 +43,11 @@ spring:
     defer-datasource-initialization: true
     hibernate:
       ddl-auto: create-drop
+  rabbitmq:
+    host: rabbitmq
+    password: guest
+    port: 5672
+    username: guest
   sql:
     init:
       data-locations: classpath:movie-service.sql
