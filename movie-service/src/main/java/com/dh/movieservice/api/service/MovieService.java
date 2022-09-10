@@ -8,6 +8,6 @@ public interface MovieService {
 
 	List<Movie> findByGenre(String genre, Boolean throwError);
 
-	Movie save(Movie movie);
+	void save(Movie movie);
 
 }

@@ -44,9 +44,9 @@ public class MovieServiceImpl implements MovieService {
 
 	@Override
 	@RabbitListener(queues = "${queue.movie.name}")
-	public Movie save(Movie movie) {
+	public void save(Movie movie) {
 		LOG.info("A movie was received via Rabbit " + movie.toString());
-		return movieRepository.save(movie);
+		movieRepository.save(movie);
 	}
 
 }
