@@ -33,6 +33,7 @@
 		<dependency>
 			<groupId>org.springframework.amqp</groupId>
 			<artifactId>spring-rabbit-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 <!--		<dependency> Esta dependencia hace que Allow multiple instances no funcione
 		Al intentar correr por segunda vez, se reinicia el primer servicio
