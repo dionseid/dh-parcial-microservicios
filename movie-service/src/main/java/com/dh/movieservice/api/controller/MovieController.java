@@ -45,4 +45,10 @@ public class MovieController {
 		return ResponseEntity.ok().body(movieService.save(movie));
 	}
 
+//	@PostMapping
+//	public /*ResponseEntity<Movie>*/void saveMovie(@RequestBody Movie movie) {
+////		return ResponseEntity.ok().body(movieService.save(movie));
+//		movieService.save(movie);
+//	}
+
 }
