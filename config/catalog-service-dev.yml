@@ -68,3 +68,13 @@ resilience4j:
 
 server:
   port: 8091
+
+spring:
+  data:
+    mongodb:
+      authentication-database: catálogo
+      host: mongodb_catalog # Donde va a estar alojado el servidor de MongoDB
+      database: catalog
+      password: rootpass
+      port: 27017
+      username: rootuser # Como vamos a estar levantando tode con Docker vamos a utilizar perfiles por defecto
