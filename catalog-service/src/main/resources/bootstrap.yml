@@ -17,11 +17,11 @@ spring:
       fail-fast: true # Si no pudo conectarse al servidor de configuraciones, que falle
       # En caso de que su wait-for-it haya dado timeout y trate de levantarse
       # Recordar que tenemos previste un restart: always
-      retry:
-        initial-interval: 1500
-        max-attempts: 60 # Esta pueste en 10000
-        max-interval: 1000
-        multiplier: 1.5
+#      retry:
+#        initial-interval: 1500
+#        max-attempts: 60 # Esta pueste en 10000
+#        max-interval: 1000
+#        multiplier: 1.5
   #  import: configserver:http://localhost:8888 # con application.yml como nombre de este archivo
   #  Prefiero la configuración que se abstrae de la dirección del servidor de configuración
   profiles:
