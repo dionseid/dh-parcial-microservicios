@@ -1,32 +1,25 @@
 cd eureka-service
-mvn clean && mvn package -DskipTests # Skipeamos tests con argumento para evitar errores, por ejemplo de conexión
-# Este argumento luego se utiliza como variable de entorno para empaquetar
-docker build . -t eureka-service
+sh make.sh
 cd ..
 
 cd config-service
-mvn clean && mvn package -DskipTests
-docker build . -t config-service
+sh make.sh
 cd ..
 
 cd gateway-service
-mvn clean && mvn package -DskipTests
-docker build . -t gateway-service
+sh make.sh
 cd ..
 
 cd catalog-service
-mvn clean && mvn package -DskipTests
-docker build . -t catalog-service
+sh make.sh
 cd ..
 
 cd movie-service
-mvn clean && mvn package -DskipTests
-docker build . -t movie-service
+sh make.sh
 cd ..
 
 cd serie-service
-mvn clean && mvn package -DskipTests
-docker build . -t serie-service
+sh make.sh
 cd ..
 
 docker-compose up
