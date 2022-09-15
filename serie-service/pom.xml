@@ -72,9 +72,9 @@
 		</dependency>
 		<!--		Para poder utilizar el traceo distribuído-->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>3.4.2</version>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>

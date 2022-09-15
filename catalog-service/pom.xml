@@ -78,6 +78,11 @@
 			<artifactId>spring-cloud-starter-sleuth</artifactId>
 		</dependency>
 		<!--		Para poder utilizar el traceo distribuído-->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>3.4.2</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
