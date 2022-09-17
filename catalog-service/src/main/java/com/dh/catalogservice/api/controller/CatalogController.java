@@ -35,21 +35,21 @@ public class CatalogController {
 
 		response.addHeader("port", serverPort);
 
-		CatalogWS catalogDto = catalogService.findByGenre(genre);
+		CatalogWS catalogDTO = catalogService.findByGenre(genre);
 
-		if (Objects.isNull(catalogDto) ||
-				(Objects.isNull(catalogDto.getMovies()) || Objects.isNull(catalogDto.getSeries())))
+		if (Objects.isNull(catalogDTO) ||
+				(Objects.isNull(catalogDTO.getMovies()) || Objects.isNull(catalogDTO.getSeries())))
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		else return new ResponseEntity<>(catalogDto, HttpStatus.OK);
+		else return new ResponseEntity<>(catalogDTO, HttpStatus.OK);
 
 	}
 
 	/* Que se conecte a la cola de movie para que movie-service la consuma
 	catalog-service es producer y movie-service es consumer */
 	@PostMapping("/saveMovie")
-	public ResponseEntity<String> saveMovie(@RequestBody MovieWS movieDto) {
+	public ResponseEntity<String> saveMovie(@RequestBody MovieWS movieDTO) {
 
-		movieService.save(movieDto);
+		movieService.save(movieDTO);
 
 		return ResponseEntity.ok("The movie was sent to the queue");
 

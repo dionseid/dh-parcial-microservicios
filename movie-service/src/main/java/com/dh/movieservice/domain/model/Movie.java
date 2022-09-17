@@ -1,12 +1,17 @@
 package com.dh.movieservice.domain.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@AllArgsConstructor
+@Builder @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "movies")
 public class Movie {
 	@Id

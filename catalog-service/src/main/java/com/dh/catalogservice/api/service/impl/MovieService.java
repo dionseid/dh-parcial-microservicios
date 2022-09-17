@@ -7,6 +7,7 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,10 +61,22 @@ public class MovieService {
 
     }
 
-    public void save(MovieWS movieDto) {
-        rabbitTemplate.convertAndSend(movieQueue, movieDto); /* Pasar el nombre de cola o routing key
-        Acá estamos usando RabbitTemplate que hemos definide como Bean */
+    @RabbitListener(queues = "${queue.movie.name}") //"${queue.movie}"
+    public void handleQueueMovieMessageReception(MovieWS movieDTO) {
+
+        LOG.info("A movie was received via Rabbit " + movieDTO.toString());
+
+        MovieWS.builder()
+                .name(movieDTO.getName())
+                .genre(movieDTO.getGenre())
+                .urlStream(movieDTO.getUrlStream())
+                .build(); // ❗ sin persistencia
+
     }
 
+    public void save(MovieWS movieDTO) {
+        rabbitTemplate.convertAndSend(movieQueue, movieDTO); /* Pasar el nombre de cola o routing key
+        Acá estamos usando RabbitTemplate que hemos definide como Bean */
+    }
 
 }
