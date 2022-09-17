@@ -31,25 +31,26 @@ public class CatalogController {
 	}
 
 	@GetMapping("/{genre}")
-	public ResponseEntity<CatalogWS> getByGenre(@PathVariable String genre, HttpServletResponse response) throws Exception {
+	public ResponseEntity<CatalogWS> getByGenre
+			(@PathVariable String genre, HttpServletResponse response) throws Exception {
 
 		response.addHeader("port", serverPort);
 
-		CatalogWS catalogDto = catalogService.getByGenre(genre);
+		CatalogWS catalogDTO = catalogService.getByGenre(genre);
 
-		if (Objects.isNull(catalogDto) ||
-				(Objects.isNull(catalogDto.getMovies()) || Objects.isNull(catalogDto.getSeries())))
+		if (Objects.isNull(catalogDTO) ||
+				(Objects.isNull(catalogDTO.getMovies()) || Objects.isNull(catalogDTO.getSeries())))
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		else return new ResponseEntity<>(catalogDto, HttpStatus.OK);
+		else return new ResponseEntity<>(catalogDTO, HttpStatus.OK);
 
 	}
 
 	/* Que se conecte a la cola de movie para que movie-service la consuma
 	catalog-service es producer y movie-service es consumer */
 	@PostMapping("/saveMovie")
-	public ResponseEntity<String> saveMovie(@RequestBody MovieWS movieDto) {
+	public ResponseEntity<String> saveMovie(@RequestBody MovieWS movieDTO) {
 
-		movieService.save(movieDto);
+		movieService.save(movieDTO);
 
 		return ResponseEntity.ok("The movie was sent to the queue");
 
