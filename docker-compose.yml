@@ -1,4 +1,4 @@
-version: "3.9" # optional since v1.27.0
+version: "3.9"
 services:
   # Dentro de cada servicio podemos tener volúmenes donde ir creando subcarpetas
   zipkin:
