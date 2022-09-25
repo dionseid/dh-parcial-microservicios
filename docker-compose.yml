@@ -35,5 +35,14 @@ services:
     ports:
       - "8095:8095"
     restart: always
+  mysql:
+    environment:
+      - MYSQL_DATABASE=movies
+      - MYSQL_PASSWORD=pass
+      - MYSQL_ROOT_PASSWORD=pass
+      - MYSQL_USER=user
+    image: mysql
+    ports:
+      - "3306:3306"
 # Podemos agregar particiones dentro de volúmenes
 # También podemos crear networks
