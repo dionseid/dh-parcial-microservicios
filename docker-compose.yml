@@ -44,5 +44,8 @@ services:
     image: mysql
     ports:
       - "3306:3306"
-# Podemos agregar particiones dentro de volúmenes
-# También podemos crear networks
+volumes: # Podemos agregar particiones dentro de volúmenes
+  data: { }
+networks: # También podemos crear networks
+  default:
+    name: catalog_network
