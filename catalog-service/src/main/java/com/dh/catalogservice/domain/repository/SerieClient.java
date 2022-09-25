@@ -11,5 +11,5 @@ import java.util.List;
 @FeignClient(name = "serie-service")
 public interface SerieClient {
     @GetMapping("/series/{genre}")
-    ResponseEntity<List<SerieWS>> findByGenre(@PathVariable String genre);
+    ResponseEntity<List<SerieWS>> findByGenre(@PathVariable String[] genre);
 }

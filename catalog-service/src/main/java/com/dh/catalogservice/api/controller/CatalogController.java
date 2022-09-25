@@ -30,11 +30,11 @@ public class CatalogController {
 	}
 
 	@GetMapping("/{genre}")
-	ResponseEntity<CatalogWS> getByGenre(@PathVariable String genre, HttpServletResponse response) throws Exception {
+	ResponseEntity<CatalogWS> findByGenre(@PathVariable String[] genre, HttpServletResponse response) throws Exception {
 
 		response.addHeader("port", serverPort);
 
-		CatalogWS catalogDto = catalogService.getByGenre(genre);
+		CatalogWS catalogDto = catalogService.findByGenre(genre);
 
 		if (Objects.isNull(catalogDto) ||
 				(Objects.isNull(catalogDto.getMovies()) || Objects.isNull(catalogDto.getSeries())))

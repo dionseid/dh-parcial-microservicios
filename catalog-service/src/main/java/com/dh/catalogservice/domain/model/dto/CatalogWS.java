@@ -7,7 +7,7 @@ import java.util.List;
 
 @Builder @Data
 public class CatalogWS {
-	private String genre;
+	private String[] genre;
 	private List<MovieWS> movies;
 	private List<SerieWS> series;
 }

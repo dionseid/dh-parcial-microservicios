@@ -15,6 +15,6 @@ import java.util.List;
 @LoadBalancerClient(name = "movie-service", configuration = FeignConfiguration.class)
 public interface MovieClient {
     @GetMapping("/movies/{genre}")
-    ResponseEntity<List<MovieWS>> findByGenre(@PathVariable String genre, @RequestParam boolean throwError);
+    ResponseEntity<List<MovieWS>> findByGenre(@PathVariable String[] genre, @RequestParam boolean throwError);
         // throwError está hardcodeade para probar le Circuit Breaker
 }
