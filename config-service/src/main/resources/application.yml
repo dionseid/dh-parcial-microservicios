@@ -21,5 +21,6 @@ spring:
     config:
       server:
         git:
+          default-label: mySQL
           searchPaths: config
           uri: https://github.com/dionseid/movies-and-series-catalog-msa
