@@ -35,5 +35,48 @@ services:
     ports:
       - "8095:8095"
     restart: always
-# Podemos agregar particiones dentro de volúmenes
-# También podemos crear networks
+  mongodb_catalog:
+    command: mongod --auth
+    container_name: "mondodb_catalog"
+    environment:
+      - MONGO_INITDB_DATABASE=catálogo
+      - MONGO_INITDB_ROOT_PASSWORD=rootpass
+      - MONGO_INITDB_ROOT_USERNAME=rootuser
+    image: mongo
+    ports:
+      - "27018:27018"
+  mongodb_serie:
+    command: mongod --auth
+    container_name: "mondodb_serie"
+    environment:
+      - MONGO_INITDB_DATABASE=serie
+      - MONGO_INITDB_ROOT_PASSWORD=rootpass
+      - MONGO_INITDB_ROOT_USERNAME=rootuser
+    image: mongo
+    ports:
+      - "27017:27017"
+  mongo-express_serie:
+    container_name: mongo-express_serie
+    environment:
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
+      - ME_CONFIG_MONGODB_SERVER=mongodb_serie
+    image: mongo-express
+    ports:
+      - "8096:8096"
+    restart: always
+  mongo-express_catalog:
+    container_name: mongo-express_catalog
+    environment:
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
+      - ME_CONFIG_MONGODB_SERVER=mongodb_catalog
+    image: mongo-express
+    ports:
+      - "8097:8097"
+    restart: always
+#volumes: # Podemos agregar particiones dentro de volúmenes
+#  data: { }
+#networks: # También podemos crear networks
+#  default:
+#    name: mongodb_network
