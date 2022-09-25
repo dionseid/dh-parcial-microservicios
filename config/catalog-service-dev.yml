@@ -72,7 +72,7 @@ server:
 spring:
   data:
     mongodb:
-      authentication-database: catálogo
+      authentication-database: admin
       host: mongodb_catalog # Donde va a estar alojado el servidor de MongoDB
       database: catalog
       password: rootpass
