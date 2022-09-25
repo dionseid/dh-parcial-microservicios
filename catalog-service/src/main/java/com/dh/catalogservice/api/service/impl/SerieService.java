@@ -30,7 +30,7 @@ public class SerieService {
 
     @CircuitBreaker(name = "seriesByGenre", fallbackMethod = "seriesByGenreFallback")
     @Retry(name = "seriesByGenre")
-    public ResponseEntity<List<SerieWS>> findByGenre(String genre) {
+    public ResponseEntity<List<SerieWS>> findByGenre(String[] genre) {
 
         LOG.info("We're about to get the series...");
 

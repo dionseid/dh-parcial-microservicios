@@ -29,7 +29,7 @@ public class CatalogServiceImpl implements CatalogService {
 	}
 
 	@Override
-	public CatalogWS getByGenre(String genreName) throws Exception {
+	public CatalogWS findByGenre(String[] genreName) throws Exception {
 
 		/* Estoy notando que tengo dos APIs a configurar con Circuit Breaker
 		El problema está en que las configuraciones del Circuit Breaker no son exactas,
