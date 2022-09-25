@@ -10,7 +10,7 @@ server:
 spring:
   data:
     mongodb:
-      authentication-database: serie
+      authentication-database: admin
       host: mongodb_serie # Donde va a estar alojado el servidor de MongoDB
       database: series
       password: rootpass
