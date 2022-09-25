@@ -30,7 +30,7 @@ public class MovieService {
 
     @CircuitBreaker(name = "moviesByGenre", fallbackMethod = "moviesByGenreFallback")
     @Retry(name = "moviesByGenre")
-    public ResponseEntity<List<MovieWS>> findByGenre(String genre, boolean throwError) {
+    public ResponseEntity<List<MovieWS>> findByGenre(String[] genre, boolean throwError) {
 
         LOG.info("We're about to get the movies...");
 
