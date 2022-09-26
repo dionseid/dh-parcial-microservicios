@@ -3,6 +3,7 @@ package com.dh.movieservice.domain.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -12,6 +13,7 @@ public class Movie {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	private String genre;
+	@ElementCollection
+	private List<String> genre;
 	private String urlStream;
 }
